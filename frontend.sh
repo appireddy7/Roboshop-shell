@@ -1,4 +1,4 @@
-code_dir=${pwd}
+code_dir=$(pwd)
 echo -e "\e[35mInstalling Nginx\e[0m"
 yum install nginx -y
 echo -e "\e[35mRemoving the old content\e[0m"
