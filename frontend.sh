@@ -2,7 +2,7 @@ code_dir=$(pwd)
 log_file=/tmp/roboshop.log
 rm -f ${log_file}
 print_head() {
-  echo -e "\e[36m$2\e[0m"
+  echo -e "\e[36m$1\e[0m"
 }
 print_head "Installing Nginx"
 yum install nginx -y &>>{log_file}
