@@ -1,9 +1,5 @@
-code_dir=$(pwd)
-log_file=/tmp/roboshop.log
-rm -f ${log_file}
-print_head() {
-  echo -e "\e[36m$1\e[0m"
-}
+source common.sh
+
 print_head "Installing Nginx"
 yum install nginx -y &>>{log_file}
 print_head "Removing the old content"
@@ -25,3 +21,5 @@ systemctl start nginx &>>{log_file}
 
 
 # if any command is errored or failed we need to stop the script
+
+# Status of command need to be printed
