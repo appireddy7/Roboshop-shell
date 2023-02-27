@@ -1,7 +1,7 @@
 source common.sh
 
 print_head "Installing Nginx"
-yum install nginxaa -y &>>${log_file}
+yum install nginx -y &>>${log_file}
 status_check $?
 print_head "Removing the old content"
 rm -rf /usr/share/nginx/html/* &>>${log_file}
