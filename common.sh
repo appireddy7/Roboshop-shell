@@ -15,7 +15,23 @@ else
 fi
 }
 
-NODEJS() {
+schema_setup() {
+  if [ "${schema_type}" == "mongo" ]; then
+  print_head "Copying mongodb Repo file"
+  cp ${code_dir}/configs/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${log_file}
+  status_check $?
+
+  print_head "Installing MongoDb org shell"
+  yum install mongodb-org-shell -y &>>${log_file}
+  status_check $?
+
+  print_head "Loading Schema"
+  mongo --host mongodb.devopsar.online </app/schema/${component}.js &>>${log_file}
+  status_check $?
+  fi
+}
+
+nodejs() {
 
 print_head "Configure Node JS Repo"
 curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>>${log_file}
@@ -71,16 +87,6 @@ print_head "Start ${component} service"
 systemctl restart ${component} &>>${log_file}
 status_check $?
 
-print_head "Copying mongodb Repo file"
-cp ${code_dir}/configs/mongodb.repo /etc/yum.repos.d/mongo.repo &>>${log_file}
-status_check $?
-
-print_head "Installing MongoDb org shell"
-yum install mongodb-org-shell -y &>>${log_file}
-status_check $?
-
-print_head "Loading Schema"
-mongo --host mongodb.devopsar.online </app/schema/${component}.js &>>${log_file}
-status_check $?
+schema_setup
 
 }
