@@ -43,12 +43,12 @@ rm -rf /app/* &>>${log_file}
 status_check $?
 
 print_head "Downloading app content"
-curl -L -o /tmp/{component}.zip https://roboshop-artifacts.s3.amazonaws.com/{component}.zip &>>${log_file}
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip &>>${log_file}
 cd /app
 status_check $?
 
 print_head "Extracting App Content"
-unzip /tmp/{component}.zip &>>${log_file}
+unzip /tmp/${component}.zip &>>${log_file}
 status_check $?
 
 print_head "Installing NodeJS dependencies "
@@ -56,19 +56,19 @@ npm install &>>${log_file}
 status_check $?
 
 print_head "Copy systemD service File"
-cp ${code_dir}/configs/{component}.service /etc/systemd/system/{component}.service &>>${log_file}
+cp ${code_dir}/configs/${component}.service /etc/systemd/system/${component}.service &>>${log_file}
 status_check $?
 
 print_head "Reload SystemD"
 systemctl daemon-reload &>>${log_file}
 status_check $?
 
-print_head "Enable user service"
-systemctl enable {component} &>>${log_file}
+print_head "Enable ${component} service"
+systemctl enable ${component} &>>${log_file}
 status_check $?
 
-print_head "Start user service"
-systemctl restart {component} &>>${log_file}
+print_head "Start ${component} service"
+systemctl restart ${component} &>>${log_file}
 status_check $?
 
 print_head "Copying mongodb Repo file"
@@ -80,7 +80,7 @@ yum install mongodb-org-shell -y &>>${log_file}
 status_check $?
 
 print_head "Loading Schema"
-mongo --host mongodb.devopsar.online </app/schema/{component}.js &>>${log_file}
+mongo --host mongodb.devopsar.online </app/schema/${component}.js &>>${log_file}
 status_check $?
 
 }
