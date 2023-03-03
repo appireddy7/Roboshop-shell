@@ -20,6 +20,8 @@ systemd_setup() {
   cp ${code_dir}/configs/${component}.service /etc/systemd/system/${component}.service &>>${log_file}
   status_check $?
 
+  sed -i -e "s/ROBOSHOP_USER_PASSWORD/${roboshop_app_password}/" /etc/systemd/system/${component}.service &>>${log_file}
+
   print_head "Reload SystemD"
   systemctl daemon-reload &>>${log_file}
   status_check $?
@@ -51,6 +53,7 @@ schema_setup() {
   print_head "Install MYSQL Client"
   yum install mysql -y &>>${log_file}
   status_check $?
+
   print_head "Loading Schema"
   mysql -h mysql.devopsar.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>${log_file}
   status_check $?
@@ -126,4 +129,20 @@ print_head "Download dependencies & Package"
  systemd_setup
 
 
+  }
+
+python() {
+
+  print_head "Install Python 3.6"
+  yum install python36 gcc python3-devel -y &>>${log_file}
+  status_check $?
+
+### Application Prereq Setup Function ####
+  app_prepreq_setup
+
+  print_head "Download dependencies"
+  pip3.6 install -r requirements.txt &>>${log_file}
+  status_check $?
+###  SystemD function ###
+  systemd_setup
   }
