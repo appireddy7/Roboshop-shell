@@ -1,7 +1,7 @@
 source common.sh
 
 roboshop_app_password=$1
-if [ -z "${roboshop_app_password}"  ]; then
+if [ -z "${roboshop_app_password}" ]; then
   echo -e "\e[31mMissing Roboshop App user password argument\e[0m"
   exit 1
   fi
@@ -27,7 +27,10 @@ systemctl start rabbitmq-server &>>${log_file}
 status_check $?
 
 print_head "Add Application user"
+rabbitmqctl list_users | grep roboshop &>>${log_file}
+if [ $? -ne 0 ]; then
 rabbitmqctl add_user roboshop ${roboshop_app_password} &>>${log_file}
+fi
 status_check $?
 
 
