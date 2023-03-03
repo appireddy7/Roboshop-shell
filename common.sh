@@ -157,7 +157,7 @@ golang() {
   app_prepreq_setup
 
   print_head "Download dependencies"
-  go mod init dispatch &>>${log_file}
+  go mod init ${component} &>>${log_file}
   status_check $?
 
   print_head "build software"
