@@ -4,7 +4,7 @@ roboshop_app_password=$1
 if [ -z "${roboshop_app_password}" ]; then
   echo -e "\e[31mMissing Roboshop App user password argument\e[0m"
   exit 1
-  fi
+fi
 
 print_head "Setup Erlang Repos"
 curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash  &>>${log_file}
