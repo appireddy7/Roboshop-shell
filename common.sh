@@ -46,7 +46,7 @@ schema_setup() {
   status_check $?
 
   print_head "Loading Schema"
-  mongo --host mongodb.devopsar.online </app/schema/${component}.js &>>${log_file}
+  mongo --host mongodb-dev.devopsar.online </app/schema/${component}.js &>>${log_file}
   status_check $?
 
   elif [ "${schema_type}" == "mysql" ];then
@@ -55,7 +55,7 @@ schema_setup() {
   status_check $?
 
   print_head "Loading Schema"
-  mysql -h mysql.devopsar.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>${log_file}
+  mysql -h mysql-dev.devopsar.online -uroot -p${mysql_root_password} < /app/schema/shipping.sql &>>${log_file}
   status_check $?
   fi
 }
